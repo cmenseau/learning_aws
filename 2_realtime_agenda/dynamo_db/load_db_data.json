@@ -1,0 +1,121 @@
+{
+    "events_table": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "user_id": {
+                        "N": "1"
+                    },
+                    "id": {
+                        "N": "1"
+                    },
+                    "dt_start": {
+                        "S": "2024-02-01T09:00:00"
+                    },
+                    "dt_end": {
+                        "S": "2024-02-01T10:00:00"
+                    },
+                    "name": {
+                        "S": "Dentist appointment"
+                    },
+                    "location": {
+                        "S": "Auckland"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "user_id": {
+                        "N": "1"
+                    },
+                    "id": {
+                        "N": "2"
+                    },
+                    "dt_start": {
+                        "S": "2024-02-01T12:00:00"
+                    },
+                    "dt_end": {
+                        "S": "2024-02-01T13:00:00"
+                    },
+                    "name": {
+                        "S": "Call mom"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "user_id": {
+                        "N": "1"
+                    },
+                    "id": {
+                        "N": "3"
+                    },
+                    "dt_start": {
+                        "S": "2024-02-01T10:00:00"
+                    },
+                    "dt_end": {
+                        "S": "2024-02-01T12:00:00"
+                    },
+                    "name": {
+                        "S": "AWS exam"
+                    },
+                    "location": {
+                        "S": "online"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "user_id": {
+                        "N": "1"
+                    },
+                    "id": {
+                        "N": "4"
+                    },
+                    "dt_start": {
+                        "S": "2024-02-02T20:00:00"
+                    },
+                    "dt_end": {
+                        "S": "2024-02-04T20:00:00"
+                    },
+                    "name": {
+                        "S": "Waiheke trip"
+                    },
+                    "location": {
+                        "S": "Waiheke"
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "user_id": {
+                        "N": "2"
+                    },
+                    "id": {
+                        "N": "5"
+                    },
+                    "dt_start": {
+                        "S": "2024-02-02T20:00:00"
+                    },
+                    "dt_end": {
+                        "S": "2024-02-04T20:00:00"
+                    },
+                    "name": {
+                        "S": "Waiheke trip"
+                    },
+                    "location": {
+                        "S": "Waiheke"
+                    }
+                }
+            }
+        }
+    ]
+}
