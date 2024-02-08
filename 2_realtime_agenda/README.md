@@ -1,6 +1,6 @@
 # 2_realtime_agenda
 
-Second project : exploring additional services and deepening my understanding of AWS by making a realtime updated calendar using DynamoDB, GraphQL websockets (AWS AppSync), Lambda, CloudFormation... For learning purposes, this is an app with several modules because I wanted to explore various services in 1 go. Obviously, it's possible to simplify this app to a webapp with a graphql server.
+Second project : exploring additional services and deepening my understanding of AWS by making a realtime updated calendar using DynamoDB, GraphQL websockets (AWS AppSync), Javascript SDK, cli, Lambda, CloudFormation... For learning purposes, this is an app with several modules because I wanted to explore various services in 1 go. Obviously, it's possible to simplify this app to a webapp with a graphql server.
 
 Resources were mostly deployed using AWS Management Console. Some resources were deployed using CloudFormation for a learning purpose.
 
@@ -54,6 +54,20 @@ Response :
 {"data":{"listEventsTables":{"items":[{"id":5,"dt_start":"2024-02-02T20:00:00"},{"id":1,"dt_start":"2024-02-01T09:00:00"},{"id":2,"dt_start":"2024-02-01T12:00:00"},{"id":3,"dt_start":"2024-02-01T10:00:00"},{"id":4,"dt_start":"2024-02-02T20:00:00"}]}}}
 ```
 
+### Create Event webapp
+
+Simple vanilla js webapp to create an event. It invokes lambda_function_dynamodb by using Function URL. API request with authorization (AWS_IAM) to invoke the Lambda is done through AWS SDK for Javascript.
+
+### Realtime Calendar webapp
+
+Simple vanilla js webapp to display events in realtime.
+
+It relies on 3 different APIs :
+- AppSync GraphQL : request user events at page load
+- AppSync GraphQL realtime endpoint : websocket connection to retrieve user events added in real time
+- public rest API Nager.Date : include holidays in the calendar
+
+It doesn't use AWS SDK, because authentication is done using api_key (not perfect).
 
 ### Sources
 https://github.com/aws-samples/serverless-patterns/tree/main/dynamodb-streams-appsync-subscription

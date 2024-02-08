@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Event</title>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1550.0.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script type="module" src="app.js"></script>
+  <!-- <script src="app.js"></script> -->
+</head>
+<body class="flex justify-center align-center h-lvh">
+  
+ <div class="bg-slate-100 rounded-md flex flex-col align-center w-4/5 h-4/5">
+  <h1 class="m-8 text-xl">Create Event</h1>
+  <form id="eventForm" class="p-8 [&>label]:m-4 [&>input]:m-4">
+    <label for="eventName">Event Name:</label>
+    <input class="border-1 border-black rounded-md" type="text" id="eventName" required><br>
+
+    <label for="eventLocation">Location:</label>
+    <input type="text" id="eventLocation" required><br>
+
+    <label for="startDateTime">Start Date and Time:</label>
+    <input type="datetime-local" id="startDateTime" required><br>
+
+    <label for="endDateTime">End Date and Time:</label>
+    <input type="datetime-local" id="endDateTime" required><br>
+
+    <label for="userId">User ID:</label>
+    <input type="number" id="userId" required><br>
+
+    <button class="rounded-sm bg-white text-black p-2"
+     type="button" onclick="createEventUsingLambda()">Create Event</button>
+  </form>
+</div>
+</body>
+</html>
