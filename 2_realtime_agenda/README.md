@@ -43,7 +43,7 @@ In Table > Exports and Streams > DynamoDB stream details, turn on stream feature
 
 The API to add events is made with a Lambda, using Python and boto3. The Lambda is triggered by using the Function URL, AWS IAM auth must be provided to use the API. The Lambda has a dedicated role for write operation in the DynamoDB instance.
 
-See Python code in folder : lambda_function_put_dynamodb
+See Python code in folder : [lambda_function_put_dynamodb](lambda_function_put_dynamodb)
 
 ## AppSync
 
@@ -64,20 +64,30 @@ Response :
 {"data":{"listEventsTables":{"items":[{"id":5,"dt_start":"2024-02-02T20:00:00"},{"id":1,"dt_start":"2024-02-01T09:00:00"},{"id":2,"dt_start":"2024-02-01T12:00:00"},{"id":3,"dt_start":"2024-02-01T10:00:00"},{"id":4,"dt_start":"2024-02-02T20:00:00"}]}}}
 ```
 
-### Create Event webapp
+## Create Event webapp
 
 Simple vanilla js webapp to create an event. It invokes lambda_function_dynamodb by using Function URL. API request with authorization (AWS_IAM) to invoke the Lambda is done through AWS SDK for Javascript.
 
-### Realtime Calendar webapp
+## Realtime Calendar webapp
 
 Simple vanilla js webapp to display events in realtime.
 
+It doesn't use AWS SDK, because GraphQL APIs authentication is done using api_key (not perfect).
+
+#### APIs
 It relies on 3 different APIs :
 - AppSync GraphQL : request user events at page load
 - AppSync GraphQL realtime endpoint : websocket connection to retrieve user events added in real time
 - public rest API Nager.Date : include holidays in the calendar
 
-It doesn't use AWS SDK, because authentication is done using api_key (not perfect).
+#### Hosting
+For test purpose, I temporarily hosted it as a static website on Amazon S3. To do so, there's 4 main steps :
+- create a bucket
+- make it publicly available
+- upload webapp files to the bucket
+- add S3 policies to make webapp files publicly available
+
+Of course, this is not secure, and it should be hosted securely with a service like CloudFront to use HTTPS. Moreover, Route 53 would enable the use of a custom domain name.
 
 ### Sources
 https://github.com/aws-samples/serverless-patterns/tree/main/dynamodb-streams-appsync-subscription
