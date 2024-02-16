@@ -64,6 +64,20 @@ Response :
 {"data":{"listEventsTables":{"items":[{"id":5,"dt_start":"2024-02-02T20:00:00"},{"id":1,"dt_start":"2024-02-01T09:00:00"},{"id":2,"dt_start":"2024-02-01T12:00:00"},{"id":3,"dt_start":"2024-02-01T10:00:00"},{"id":4,"dt_start":"2024-02-02T20:00:00"}]}}}
 ```
 
+## Listening to item creation on DynamoDB instance through subscriptions
+
+For this part, I adapted the [dynamodb-streams-appsync-subscription](https://github.com/aws-samples/serverless-patterns/tree/main/dynamodb-streams-appsync-subscription) serverless pattern from AWS. This pattern makes it possible to simply create a nodejs Lambda, which will call a local resolver AppSync/GraphQl mutation when a new event is added to the DynamoDB instance.
+
+I made a few adaptations to the severless pattern :
+- adapting IaC template (template.yaml) to reuse pre-existing DynamoDB table, AppSync API
+- updating data structure and mutation in nodejs code
+
+To deploy the lambda, with code, correct roles and policies :
+```
+sam build
+sam deploy --guided
+```
+
 ## Create Event webapp
 
 Simple vanilla js webapp to create an event. It invokes lambda_function_dynamodb by using Function URL. API request with authorization (AWS_IAM) to invoke the Lambda is done through AWS SDK for Javascript.
@@ -89,7 +103,7 @@ For test purpose, I temporarily hosted it as a static website on Amazon S3. To d
 
 Of course, this is not secure, and it should be hosted securely with a service like CloudFront to use HTTPS. Moreover, Route 53 would enable the use of a custom domain name.
 
-### Sources
+# Sources
 https://github.com/aws-samples/serverless-patterns/tree/main/dynamodb-streams-appsync-subscription
 
 https://docs.aws.amazon.com/appsync/latest/devguide/aws-appsync-real-time-data.html

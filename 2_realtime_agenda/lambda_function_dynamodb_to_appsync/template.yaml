@@ -1,0 +1,89 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless patterns - Appsync DynamoDB Streams Subscription
+
+Resources:
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow #allow lambda to assume this role
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: LambdaRolePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow #allow to write logs to cloudwatch
+              Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              Resource: arn:aws:logs:*:*:*
+            - Effect: Allow #allow lambda to read from the event stream
+              Action:
+              - dynamodb:DescribeStream
+              - dynamodb:GetRecords
+              - dynamodb:GetShardIterator
+              - dynamodb:ListStreams
+              Resource: "arn:aws:dynamodb:us-east-1:{AWS account number}:table/events_table/stream/2024-01-31T08:21:01.108"
+
+##########################################################################
+#   Lambda Function                                                      #
+##########################################################################
+  DDBStreamFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/DDBStreamFunction
+      Role:
+        Fn::GetAtt: [ LambdaRole , Arn ]
+      Handler: app.handler
+      Runtime: nodejs18.x
+      Architectures: ["arm64"]
+      Timeout: 30
+      MemorySize: 1024
+      Policies:
+      # Give the Lambda service access to poll your DynamoDB Stream
+        - AmazonDynamoDBFullAccess
+        - Statement:
+            - Effect: Allow
+              Action: appsync:GraphQL
+              Resource: {AppSync Mutation ARN}
+      Events:
+        Stream:
+          Type: DynamoDB
+          Properties:
+            BatchSize: 100
+            StartingPosition: LATEST
+            FilterCriteria:
+              Filters:
+                - Pattern: '{"eventName": ["INSERT"]}'
+            Stream: arn:aws:dynamodb:us-east-1:{AWS account number}:table/events_table/stream/2024-01-31T08:21:01.108
+      Environment:
+        Variables:
+          APP_SYNC_API: {AppSync API endpoint}
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        External: 
+          - '@aws-sdk/util-dynamodb'
+          - '@aws-sdk/credential-provider-node'
+          - '@aws-sdk/signature-v4'
+          - '@aws-sdk/protocol-http'
+        Minify: true
+        Target: "es2022"
+        Sourcemap: true
+        EntryPoints: 
+          - app.ts
+  DDBStreamFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: 1
+      LogGroupName: !Sub /aws/lambda/${DDBStreamFunction}
