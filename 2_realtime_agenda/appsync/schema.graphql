@@ -1,0 +1,134 @@
+input CreateEventsTableInput {
+	dt_end: String
+	dt_start: String
+	id: Int!
+	user_id: Int!
+	name: String
+	location: String
+}
+
+input DeleteEventsTableInput {
+	id: Int!
+	user_id: Int!
+}
+
+type EventsTable {
+	dt_end: String
+	dt_start: String
+	id: Int!
+	user_id: Int!
+	name: String
+	location: String
+}
+
+type EventsTableConnection {
+	items: [EventsTable]
+	nextToken: String
+}
+
+input ModelSizeInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	between: [Int]
+}
+
+input TableBooleanFilterInput {
+	ne: Boolean
+	eq: Boolean
+	attributeExists: Boolean
+}
+
+input TableEventsTableFilterInput {
+	dt_end: TableStringFilterInput
+	dt_start: TableStringFilterInput
+	id: TableIntFilterInput
+	user_id: TableIntFilterInput
+	name: TableStringFilterInput
+	location: TableStringFilterInput
+}
+
+input TableFloatFilterInput {
+	ne: Float
+	eq: Float
+	le: Float
+	lt: Float
+	ge: Float
+	gt: Float
+	between: [Float]
+	attributeExists: Boolean
+}
+
+input TableIDFilterInput {
+	ne: ID
+	eq: ID
+	le: ID
+	lt: ID
+	ge: ID
+	gt: ID
+	contains: ID
+	notContains: ID
+	between: [ID]
+	beginsWith: ID
+	attributeExists: Boolean
+	size: ModelSizeInput
+}
+
+input TableIntFilterInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	between: [Int]
+	attributeExists: Boolean
+}
+
+input TableStringFilterInput {
+	ne: String
+	eq: String
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	contains: String
+	notContains: String
+	between: [String]
+	beginsWith: String
+	attributeExists: Boolean
+	size: ModelSizeInput
+}
+
+input UpdateEventsTableInput {
+	dt_end: String
+	dt_start: String
+	id: Int!
+	user_id: Int!
+	name: String
+	location: String
+}
+
+type Mutation {
+	createEventsTable(input: CreateEventsTableInput!): EventsTable
+	createEventsTableWithLocalResolver(input: CreateEventsTableInput!): EventsTable
+	updateEventsTable(input: UpdateEventsTableInput!): EventsTable
+	deleteEventsTable(input: DeleteEventsTableInput!): EventsTable
+}
+
+type Query {
+	getEventsTable(user_id: Int!, id: Int!): EventsTable
+	listEventsTables(filter: TableEventsTableFilterInput, limit: Int, nextToken: String): EventsTableConnection
+}
+
+type Subscription {
+	onCreateEventsTable: EventsTable
+		@aws_subscribe(mutations: ["createEventsTable","createEventsTableWithLocalResolver"])
+	onUpdateEventsTable: EventsTable
+		@aws_subscribe(mutations: ["updateEventsTable"])
+	onDeleteEventsTable: EventsTable
+		@aws_subscribe(mutations: ["deleteEventsTable"])
+}

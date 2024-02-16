@@ -48,7 +48,7 @@ See Python code in folder : lambda_function_put_dynamodb
 ## AppSync
 
 Subscription to get real time updates of new data is supported in AppSync when data is updated through a GraphQL mutation. However, if the underlying data source (in this case : DynamoDB) gets updated, the subscription is not updated natively in AWS AppSync. So it is necessary to put up a special mechanism to propagate the database changes to AppSync.
-Therefore a specific mutation with Local Resolvers is required. DynamoDB Streams capture changes in the table, they trigger an AWS Lambda, which invokes this mutation.
+Therefore a specific mutation with Local Resolvers is required (see file [createEventsTableWithLocalResolver.js](appsync/createEventsTableWithLocalResolver.js)). DynamoDB Streams capture changes in the table, they trigger an AWS Lambda, which invokes this mutation.
 
 Create AppSync API, using GraphQL type, with DynamoDB data source. Based on the DyanmoDB table data, AppSync automatically creates a GraphQL schema.
 
