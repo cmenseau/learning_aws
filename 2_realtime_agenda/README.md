@@ -14,6 +14,10 @@ Target process :
 
 ![Architecture](./img/AWS_project2.png)
 
+# Video demo
+
+![Gif](./img/demo_front.gif)
+
 # Notes
 
 ## DynamoDB 
