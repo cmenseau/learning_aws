@@ -39,6 +39,12 @@ aws dynamodb batch-write-item --request-items file://dynamo_db/load_db_data.json
 
 In Table > Exports and Streams > DynamoDB stream details, turn on stream feature.
 
+## API to add events in DynamoDB 
+
+The API to add events is made with a Lambda, using Python and boto3. The Lambda is triggered by using the Function URL, AWS IAM auth must be provided to use the API. The Lambda has a dedicated role for write operation in the DynamoDB instance.
+
+See Python code in folder : lambda_function_put_dynamodb
+
 ## AppSync
 
 Subscription to get real time updates of new data is supported in AppSync when data is updated through a GraphQL mutation. However, if the underlying data source (in this case : DynamoDB) gets updated, the subscription is not updated natively in AWS AppSync. So it is necessary to put up a special mechanism to propagate the database changes to AppSync.
@@ -78,3 +84,4 @@ https://github.com/aws-samples/serverless-patterns/tree/main/dynamodb-streams-ap
 
 https://docs.aws.amazon.com/appsync/latest/devguide/aws-appsync-real-time-data.html
 
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/HostingWebsiteOnS3Setup.html
