@@ -78,9 +78,11 @@ sam build
 sam deploy --guided
 ```
 
+I used CloudFormation to quickly deploy a Lambda and check out CloudFormation abilities. However, using Cloud Formation in this way is not a good practice. All the components of the app should be managed through IaC to prevent errors related to manual changes in the resources. And this is way more simple when working on large systems.
+
 ## Create Event webapp
 
-Simple vanilla js webapp to create an event. It invokes lambda_function_dynamodb by using Function URL. API request with authorization (AWS_IAM) to invoke the Lambda is done through AWS SDK for Javascript.
+Simple vanilla js webapp to create an event. It invokes lambda_function_dynamodb by using Function URL. API authorization (AWS_IAM) to invoke the Lambda is made through AWS SDK for Javascript.
 
 ## Realtime Calendar webapp
 
