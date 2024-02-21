@@ -30,13 +30,13 @@ INSERT INTO basic_msg (message) VALUES ('test_value');
 select * from basic_msg;
 ```
 
+AWS CLI is not compatible with RDS MySql, so we need to connect to MySql using cli command mysql. There's 2 prerequisites : download ssl certificate (see [this link](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-ssl-connections.html#USER_ConnectToInstanceSSL.CLI)) and open public access from your IP.
+
 Remotely connect to database. Allow access : 
 - Modify DB instance > Connectivity > Public Access > Publicly accessible
 - inbound rule in security group of RDS : TCP 3306 from my IP is allowed
 ```
-mysql -u {username} -p'{password}' \
-    -h {RDS instance endpoint} -P 3306 \
-    -D messages
+mysql -h {RDS instance endpoint} --ssl-ca={path to us-east-1-bundle.pem} --ssl-mode=VERIFY_IDENTITY -P 3306 -u {username} -p
 ```
 
 ## Lambda
@@ -118,3 +118,4 @@ https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html
 
 https://aws.amazon.com/blogs/security/how-to-securely-provide-database-credentials-to-lambda-functions-by-using-aws-secrets-manager/
 
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ConnectToInstance.html
